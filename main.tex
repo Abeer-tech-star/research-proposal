@@ -1,0 +1,429 @@
+\documentclass[12pt]{report}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+
+% ---------- Spacing ----------
+\usepackage{setspace}
+\onehalfspacing
+
+% ---------- Colors ----------
+\usepackage{xcolor}
+\definecolor{primary}{HTML}{0F172A}
+\definecolor{secondary}{HTML}{1E3A8A}
+\definecolor{accent}{HTML}{0EA5E9}
+
+% ---------- Titles ----------
+\usepackage{titlesec}
+
+\titleformat{\chapter}
+{\Huge\bfseries\color{primary}}
+{\thechapter.}
+{1em}
+{}
+
+\titleformat{\section}
+{\Large\bfseries\color{secondary}}
+{\thesection}
+{1em}
+{}
+
+\titleformat{\subsection}
+{\large\bfseries\color{accent}}
+{\thesubsection}
+{1em}
+{}
+
+% ---------- Lists ----------
+\usepackage{enumitem}
+
+% ---------- Math ----------
+\usepackage{amsmath}
+
+% ---------- Citations ----------
+\usepackage[numbers]{natbib}
+
+% ---------- Hyperlinks ----------
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=secondary,
+    urlcolor=accent,
+    citecolor=secondary
+}
+
+% ---------- Header/Footer ----------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+\fancyhead[L]{\color{secondary}\leftmark}
+\fancyhead[R]{\color{secondary}Abeer M. Morgan}
+\fancyfoot[C]{\thepage}
+
+% ---------- Title ----------
+\title{
+\vspace{2cm}
+\Huge\bfseries\color{primary}
+A Comparative Benchmarking Framework for Improving Data Analysis Efficiency Using Recurrent Deep Learning Architectures
+\\[1cm]
+\Large\color{secondary}
+Master's Research Proposal
+}
+
+\author{
+\Large Abeer M. Morgan
+\\[0.3cm]
+\large Faculty of Computer Science and Information Technology
+\\
+Sana’a University
+ \\
+ \\
+Supervisor:\\
+Prof. Dr. Ahmed Shalabi
+}
+\date{\large May 2026}
+
+\begin{document}
+
+\maketitle
+
+
+
+\vspace{1cm}
+
+\begin{center}
+{\Large\bfseries Abstract}
+\end{center}
+
+\vspace{0.5cm}
+
+This research proposal suggests a comparative benchmarking scheme to assess the performance of recurrent deep learning models in sequence-based analytics frameworks. The purpose of the study is to analyze the effectiveness of the LSTM, BiLSTM, and GRU models compared to traditional statistical techniques. The quantitative approach is utilized based on controlled benchmarking schemes, reproducibility-driven assessment strategies, and standardized data pre-processing methods. This research proposal seeks to analyze the interplay between predictive ability, computational power, and model efficiency in large sequences.
+
+
+\vspace{0.7cm}
+
+\noindent
+\textbf{Keywords:} Deep Learning, LSTM, GRU, Benchmarking, Reproducibility, Sequence Analysis, Time-Series Forecasting
+
+\newpage
+
+\tableofcontents
+\newpage
+
+
+% =====================================================
+
+\chapter{Introduction}
+
+\section{General Topic and Context}
+
+In the present-day world, characterized by fast-moving information, the power to analyze and derive meaning from sequential data sets has been an essential aspect of organizational knowledge management. The conventional approach to data analysis is based on linear statistical models which cannot cope with the non-linearity and long-range dependencies found in today’s digital world. With the growth of data sets, there has been a need for better analytical methods that can automatically derive features and learn from sequential data.
+
+
+
+\section{Literature Scan}
+
+Recent advances in the machine learning literature have seen a transition towards recurrent neural networks in sequence-based analysis \cite{goodfellow2016, lecun2015}. Initial investigations revealed the superior performance of artificial neural networks over traditional statistical models in capturing nonlinear time series data \cite{zhang1998, rumelhart1986}. The development of LSTM networks rectified the problems related to gradient vanishing and enhanced the ability to capture long-term dependencies in sequential data \cite{hochreiter1997}. Later innovations led to the development of GRU networks, which streamlined the gating process while retaining high prediction power \cite{cho2014}. Recent reviews have additionally emphasized the growing role of deep learning models in contemporary forecasting and sequence analysis scenarios \cite{lim2021, wen2022}. While numerous researches indicated significant improvements in forecasting accuracy in application areas, a comprehensive assessment of the effectiveness of analysis through recurrent neural networks has not been adequately studied \cite{kong2017, marino2016, smyl2020}.
+
+
+\section{Problem Statement}
+
+In modern systems used for data analysis, an interesting dilemma arises between accuracy of prediction and computational effectiveness. While classical statistical methods can offer computational efficiency, they cannot deal with nonlinear dynamical behavior in time. On the other hand, deep-learning-based neural networks can do a good job in representing nonlinear behavior while being more computationally complex. Even though many applications use recurrent neural networks, no effective comparison between architecture efficiency is yet available.
+
+
+\section{Purpose Statement}
+
+The objective of this quantitative research is to perform comparative benchmarking of recurrent deep learning models, including Long Short-Term Memory (LSTM), Bidirectional LSTM (BiLSTM), and Gated Recurrent Units (GRU) models, to determine their impact on increasing efficiency in analyzing sequence data.
+
+
+\section{Research Questions}
+
+\begin{enumerate}
+    \item What role do recurrent deep learning architectures play in enhancing analytical efficiency compared to conventional statistical approaches?
+    
+    \item What is the effect of network architecture reduction in GRU networks over conventional LSTMs?
+    
+    \item What is the effect of bidirectional processing sequences in high volume datasets?
+\end{enumerate}
+
+\section{Objectives}
+
+\begin{itemize}
+    \item For comparison using classical models like SARIMA.
+    
+    \item To analyze the performance of the LSTM and BiLSTM neural networks.
+    
+    \item To analyze the performance of the GRU network.
+    
+    \item To analyze the connection between complexity and predictive power.
+\end{itemize}
+
+\section{Significance of the Study}
+
+This research adds to the emerging literature that focuses on the design of deep learning models for the processing of massive sequential data sets. With its focus on efficiency-related architectural compromises, the research offers valuable information that may help in designing better model selection approaches.
+
+
+\section{Scope and Delimitations}
+
+This paper strictly examines recurrent neural network structures, like LSTM, BiLSTM, and GRU networks. The experiments conducted in this study use a standard sequence dataset inside a benchmarking system. This paper does not consider non-recurrent neural network structures, such as Transformers and Convolutional neural networks.
+
+
+\section{Limitations}
+
+The research is confined to one set of raw data and has limited computational resources for the task of optimizing parameters. In addition, the design of neural networks is confined to recurrent neural network architecture only.
+
+
+\section{Definition of Key Terms}
+
+\begin{itemize}
+    \item \textbf{Analytical Efficiency}: A measure of how well a model can predict accurately while keeping computational costs low.
+
+    
+    \item \textbf{Recurrent Neural Networks (RNNs)}: Deep neural network models engineered for dealing with temporal data using recurring connection mechanisms.
+
+    
+    \item \textbf{Sequence-based Data}: Observations ordered chronologically with time dependency between consecutive observations.
+
+\end{itemize}
+
+\section{Research Hypothesis}
+
+\begin{itemize}
+    \item \textbf{H1}: The GRU network is anticipated to be more efficient analytically than traditional LSTM networks because it is architecturally simpler.
+
+    
+    \item \textbf{H2}: Nonlinear time dependency modeling in large-scale sequential data is anticipated to benefit more from deep learning systems than traditional statistical methods.
+
+\end{itemize}
+
+\section{Brief Methodology Overview}
+
+The current study will utilize a quantitative experimental approach rooted in benchmarking principles. Time-series data will be subjected to standard data pre-processing steps such as time-series aggregation and normalization. Different recurrent neural network models will be trained and tested under the same experimental settings using standard pre-processing policies and test-train splits. Performance comparisons between models will be conducted using standard regression performance measures such as RMSE, MAE, and ($R^2$).
+
+
+\section{Organization of the Study}
+
+The paper is divided into three main sections. Section One introduces the background, research aims and objectives, and theoretical underpinning for this research. Section Two discusses the review of literature related to the research. Section Three covers the research methods, benchmarks, and methodology to be followed.
+
+
+% =====================================================
+\chapter{Literature Review}
+
+\section{Introduction}
+
+This chapter highlights the history of sequence analysis using models based on sequences, including the change that occurred from traditional statistical forecasting methods to recurrent deep learning methods.
+
+
+
+\section{Traditional Statistical Approaches}
+
+Traditional time series forecasting techniques such as ARIMA and SARIMA models have been traditionally used for the analysis of time series because of their interpretability and ease of computation \cite{taylor2015, box2015, hyndman2018}. Nevertheless, these traditional methods face limitations when applied in a highly non-linear domain having time-varying dependencies.
+
+
+
+\section{Deep Learning Architectures for Sequence Analysis}
+
+The arrival of deep learning architectures created a huge difference in sequence analysis because of their inclusion of automatic feature extraction in their prediction framework \cite{goodfellow2016, lecun2015}. In terms of sequence modeling, recurrent neural networks, especially LSTM and GRU, showed high performance in recognizing long-range time dependencies, which cannot be captured effectively through traditional statistical frameworks \cite{kong2017, marino2016}. Newer architectures such as attention-based models and transformers also showed high performance in sequential data forecasting \cite{wen2022, vaswani2017}.
+
+
+\section{Architectural Efficiency in Recurrent Networks}
+
+The comparison study between different recurrent models is now gaining more prominence in literature. LSTM employs several gate functions to control the flow of data within the sequences, thus enhancing its representational power but also leading to increased computation costs. In contrast, the GRU model achieves efficiency by employing fewer gates without compromising accuracy \cite{cho2014}.
+
+
+
+\section{Reproducibility Challenges in Deep Learning Systems}
+
+According to recent studies, machine learning benchmarking research is fraught with serious issues of reproducibility \cite{ullah2024}. Differences in pre-processing approaches, randomization methods, software platforms, and split strategies often lead to non-reproducible results in different experiments. Thus, reproducibility-oriented benchmarking platforms have recently gained considerable importance in providing dependable comparative evaluation \cite{lim2021, smyl2020}.
+
+
+\section{Research Gap}
+
+Even though earlier works examined the enhancements in predictive accuracy by applying deep learning models in detail, less work has been done on comparing the computational efficiency as a comparative factor for these models. Earlier literature tends to emphasize on achieving better performance specific to particular domains rather than devising generic benchmarking procedures that maintain an equilibrium between computational efficiency and predictive accuracy.
+
+% =====================================================
+\chapter{Research Methodology}
+
+\section{Study Type}
+
+The methodology employed for the research is quantitative experimentation based on ML-Systems benchmarking.
+
+
+\section{Research Design}
+
+This study uses a controlled comparative experimental approach, wherein the performance of recurrent neural networks is compared to that of classical statistics on equal preprocessing and testing grounds.
+
+
+\section{Dataset Description}
+
+The experiment involves a sequential dataset that is openly accessible and is suitable for conducting temporal analysis tasks. The data preprocessing process involves temporal aggregation, normalization, and sequence transformation under supervision.
+
+
+\section{Unit of Analysis}
+
+The unit of analysis is referred to as an individual sequence prediction cycle created through model execution procedures.
+
+
+\section{Experimental Environment}
+
+The experiment setup is carried out within a software simulation platform that employs predetermined dependency setups, consistent library versions, and reproducibility-aware runtime policies.
+
+
+\section{Experimental Design and Protocol}
+
+The data set is split chronologically to avoid temporal leakage. A variety of recurrent neural network models such as LSTM, BiLSTM, and GRU are tested under the same experimental conditions. Random seeding initialization is used to ensure consistency in experimentation.
+
+
+\section{Baselines and Comparative Models}
+
+\begin{itemize}
+    \item \textbf{Baseline Model}: SARIMA statistical forecasting architecture.
+    
+    \item \textbf{Model A}: Standard stacked LSTM architecture.
+    
+    \item \textbf{Model B}: Bidirectional LSTM (BiLSTM) architecture.
+    
+    \item \textbf{Model C}: Gated Recurrent Unit (GRU) architecture.
+\end{itemize}
+
+\section{Evaluation Metrics}
+
+Comparative evaluation is conducted using the following metrics:
+
+\begin{itemize}
+    \item Root Mean Square Error (RMSE)
+    
+    \item Mean Absolute Error (MAE)
+    
+    \item Coefficient of Determination ($R^2$)
+\end{itemize}
+
+\section{Reproducibility and Fair Comparison Considerations}
+
+For consistent benchmarking and reproducibility, all models are provided with the same pre-processing data and evaluation procedure. The configurations for experiments, dependencies used, pre-processing procedures, and initializations have been recorded through a reproducibility audit system.
+
+
+\section{Planned Evaluation Approach}
+
+The proposed evaluation framework will emphasize comparison in terms of prediction accuracy versus architectural complexity and efficiency of computation. Analysis is expected to explore whether simpler recurrent architectures offer any efficiencies without compromising predictability.
+
+
+\section{Ethical Considerations}
+
+This research uses only publicly available anonymous datasets. As a result, it does not contain any information about participants or require any participation from humans.
+
+
+\section{Limitations and Threats to Validity}
+
+Possible validity concerns include behavior specific to the selected dataset, variations caused by hardware-dependent execution environments, and constraints resulting from limited computational resources during model optimization experiments.
+
+
+\section{Chapter Summary}
+
+In this chapter, the approach for performing reproducibility-focused benchmarking of recurrent deep learning models in sequence-based analytics was provided. In general, the developed methodology focused on controlled experimentation, fair comparison, and performance evaluation.
+
+
+% =====================================================
+
+% =====================================================
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{References}
+
+\begin{thebibliography}{99}
+
+\bibitem{hochreiter1997}
+S. Hochreiter and J. Schmidhuber,
+``Long Short-Term Memory,''
+Neural Computation, vol. 9, no. 8, pp. 1735--1780, 1997.
+
+\bibitem{cho2014}
+K. Cho et al.,
+``Learning Phrase Representations using RNN Encoder--Decoder for Statistical Machine Translation,''
+Proceedings of EMNLP, 2014.
+
+\bibitem{goodfellow2016}
+I. Goodfellow, Y. Bengio, and A. Courville,
+\textit{Deep Learning},
+MIT Press, 2016.
+
+\bibitem{kong2017}
+W. Kong, Z. Y. Dong, D. J. Hill, F. Luo, and Y. Xu,
+``Short-Term Residential Load Forecasting based on LSTM Recurrent Neural Network,''
+IEEE Transactions on Smart Grid, vol. 10, no. 1, pp. 841--851, 2019.
+
+\bibitem{marino2016}
+D. Marino, K. Amarasinghe, and M. Manic,
+``Building Energy Load Forecasting using Deep Neural Networks,''
+IECON 2016.
+
+\bibitem{taylor2015}
+J. W. Taylor and R. Buizza,
+``Using Weather Ensemble Predictions in Electricity Demand Forecasting,''
+International Journal of Forecasting, vol. 19, no. 1, pp. 57--70, 2003.
+
+\bibitem{ullah2024}
+M. Ullah et al.,
+``Deep Learning Framework for Electricity Demand Forecasting,''
+2024.
+
+\bibitem{zhang1998}
+G. Zhang, B. E. Patuwo, and M. Y. Hu,
+``Forecasting with Artificial Neural Networks,''
+International Journal of Forecasting, vol. 14, no. 1, pp. 35--62, 1998.
+
+\bibitem{brownlee2018}
+J. Brownlee,
+\textit{Deep Learning for Time Series Forecasting},
+Machine Learning Mastery, 2018.
+
+\bibitem{lim2021}
+B. Lim and S. Zohren,
+``Time-Series Forecasting With Deep Learning: A Survey,''
+Philosophical Transactions of the Royal Society A, vol. 379, no. 2194, 2021.
+
+\bibitem{wen2022}
+Q. Wen et al.,
+``Transformers in Time Series: A Survey,''
+arXiv preprint arXiv:2202.07125, 2022.
+
+\bibitem{hyndman2018}
+R. J. Hyndman and G. Athanasopoulos,
+\textit{Forecasting: Principles and Practice},
+2nd ed., OTexts, 2018.
+
+\bibitem{box2015}
+G. Box, G. Jenkins, G. Reinsel, and G. Ljung,
+\textit{Time Series Analysis: Forecasting and Control},
+5th ed., Wiley, 2015.
+
+\bibitem{lecun2015}
+Y. LeCun, Y. Bengio, and G. Hinton,
+``Deep Learning,''
+Nature, vol. 521, no. 7553, pp. 436--444, 2015.
+
+\bibitem{rumelhart1986}
+D. Rumelhart, G. Hinton, and R. Williams,
+``Learning Representations by Back-Propagating Errors,''
+Nature, vol. 323, pp. 533--536, 1986.
+
+\bibitem{vaswani2017}
+A. Vaswani et al.,
+``Attention Is All You Need,''
+Advances in Neural Information Processing Systems, 2017.
+
+\bibitem{smyl2020}
+S. Smyl,
+``A Hybrid Method of Exponential Smoothing and Recurrent Neural Networks for Time Series Forecasting,''
+International Journal of Forecasting, vol. 36, no. 1, pp. 75--85, 2020.
+
+\bibitem{heaton2017}
+J. Heaton,
+\textit{Ian Goodfellow, Yoshua Bengio, and Aaron Courville: Deep Learning},
+Genetic Programming and Evolvable Machines, vol. 19, pp. 305--307, 2018.
+
+\end{thebibliography}
+
+
+\end{document}
